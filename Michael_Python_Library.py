@@ -34,10 +34,10 @@ def x_y_split(df: pd.DataFrame, y_column: str) -> (pd.Series, pd.Series):
 
 class PolynomialRegression:
     def __init__(self, x: pd.Series, y: pd.Series, degree: int):
-        self.polynomialFeatures = self.polynomial_features(x, y, degree)
+        self.polynomial_features = self.create_polynomial_features(x, y, degree)
         self.model = self.create_model(x, y)
 
-    def polynomial_features(self, x: pd.Series, y: pd.Series, degree) -> PolynomialFeatures:
+    def create_polynomial_features(self, x: pd.Series, y: pd.Series, degree) -> PolynomialFeatures:
         x = x.values.reshape(-1, 1) if len(x.columns) == 1 else x.values
         y = y.values
 
@@ -53,7 +53,7 @@ class PolynomialRegression:
         y = y.values
 
         model = LinearRegression()
-        model.fit(self.polynomialFeatures.fit_transform(x), y)
+        model.fit(self.polynomial_features.fit_transform(x), y)
 
         return model
 
@@ -64,7 +64,7 @@ class PolynomialRegression:
             x_predict = np.array(x_predict)
             x_predict = x_predict.reshape(1, -1)
 
-            predictions.append(self.model.predict(self.polynomialFeatures.fit_transform(x_predict))[0])
+            predictions.append(self.model.predict(self.polynomial_features.fit_transform(x_predict))[0])
 
         return predictions
 
@@ -72,6 +72,8 @@ if __name__ == "__main__":
     x = [1, 2, 3]
     #x2 = [1, 2, 3]
     y = [3, 2, 1]
+
+
 
     names = ['x', 'y']
 
